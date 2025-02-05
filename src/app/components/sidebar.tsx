@@ -52,9 +52,9 @@ function Sidebar({ handlePageStage, pageStage }: { handlePageStage: (stage: stri
         <IconComponent icon={FaBookOpen} name="KarnBan" stage="Homework" margin="5" />
         <hr className="border-1 w-[90%] left-[50%] translate-x-[-50%] opacity-10 mt-10 relative" />
         <IconComponent icon={RiCalendarScheduleFill} name="Schedule" stage="Schedule" margin="0" />
-        <div className='bottom-24 absolute w-[100%]'>
+        <div className='bottom-20 flex flex-col gap-8 absolute w-[100%]'>
             <IconComponent icon={FiSettings} name="Setting" stage="Setting" margin="0" />
-            <IconComponent icon={CgProfile} name="Profile" stage="Profile" margin="12" />
+            <IconComponent icon={CgProfile} name="Profile" stage="Profile" margin="5" />
         </div>
       </div>
     </div>
