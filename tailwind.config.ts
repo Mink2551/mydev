@@ -9,8 +9,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        // https://colorhunt.co/palette/fbf5e5c890a7a35c7a212121
+        palette1: "#212121",
+        palette2: "#A35C7A",
+        palette3: "#C890A7",
+        palette4: "#FBF5E5",
       },
     },
   },
