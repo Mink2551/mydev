@@ -13,7 +13,7 @@ enum Role {
   ADMIN
 }
 
-model User {
+model user {
   id String @id @default(uuid())
   email String @unique
   name String
@@ -21,13 +21,13 @@ model User {
   roles Role @default(USER)
 }
 
-model Folder {
+model folder {
   id String @id @default(uuid())
   name String
   parent String?
 }
 
-model NormalContent {
+model normalContent {
   id String @id @default(uuid())
   name String
   content String?
@@ -35,7 +35,7 @@ model NormalContent {
   parent String?
 }
 
-model DropdownContent {
+model dropdownContent {
   id String @id @default(uuid())
   name String
   content String?
@@ -45,7 +45,7 @@ model DropdownContent {
   parent String?
 }
 
-model PageContent {
+model pageContent {
   id String @id @default(uuid())
   name String
   content String?

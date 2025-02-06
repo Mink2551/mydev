@@ -40,7 +40,7 @@ function Sidebar({ handlePageStage, pageStage }: { handlePageStage: (stage: stri
     <div
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
-      className={`h-[100vh] relative bg-palette1 border-r border-gray-600 duration-300 flex flex-col ${isHover ? 'w-[200px]' : 'w-[60px]'}`}
+      className={`h-[100vh] z-50 absolute bg-palette1 border-r border-gray-600 duration-300 flex flex-col ${isHover ? 'w-[200px]' : 'w-[60px]'}`}
     >
       {/* Logo */}
       <Image src={MydevLogo} alt="MyDevLogo" className="rounded-full absolute max-w-[60px] scale-125 mx-auto mt-3" />
