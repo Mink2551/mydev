@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Mali } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { AuthProvider } from "./Provinders";
 import "./globals.css";
 
@@ -29,6 +30,7 @@ export default function RootLayout({
       > 
         <AuthProvider>
           {children}
+          <SpeedInsights/>
         </AuthProvider>
       </body>
     </html>
