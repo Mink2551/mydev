@@ -1,9 +1,7 @@
 {
-    "builds": [
-      {
-        "src": "package.json",
-        "use": "@vercel/node"
+    "functions": {
+      "pages/api/users/**/*.js": {
+        "maxDuration": 30
       }
-    ]
+    }
   }
-  
