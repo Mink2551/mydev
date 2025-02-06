@@ -10,6 +10,7 @@ function account() {
       {session && session.user && (
         <h1 className='font-bold text-white text-2xl'>Username : {session.user.name}</h1>
       )}
+      <button onClick={() => {signOut()}}>Log Out</button>
     </div>
   )
 }

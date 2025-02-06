@@ -1,20 +1,21 @@
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
-import { prisma } from "../../../../../lib/prisma";
+// app/api/auth/route.js
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import bcrypt from 'bcrypt';
+import { prisma } from '../../../../../lib/prisma';
 
 const authOptions = {
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "example@example.com" },
-        password: { label: "Password", type: "password" },
+        email: { label: 'Email', type: 'email', placeholder: 'example@example.com' },
+        password: { label: 'Password', type: 'password' },
       },
 
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Email and Password are required");
+          throw new Error('Email and Password are required');
         }
 
         const user = await prisma.user.findUnique({
@@ -22,12 +23,12 @@ const authOptions = {
         });
 
         if (!user) {
-          throw new Error("User not found");
+          throw new Error('User not found');
         }
 
         const isMatch = await bcrypt.compare(credentials.password, user.password);
         if (!isMatch) {
-          throw new Error("Invalid credentials");
+          throw new Error('Invalid credentials');
         }
 
         return { id: user.id, name: user.name, email: user.email };
@@ -36,11 +37,11 @@ const authOptions = {
   ],
 
   pages: {
-    signIn: "/login",
+    signIn: '/login', // Customize the login page URL if needed
   },
 
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
 
   callbacks: {
@@ -66,7 +67,7 @@ const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-// Export the handler functions for GET and POST requests in this route
+// Export the handler functions for GET and POST requests
 const handler = (req, res) => NextAuth(req, res, authOptions);
 
 export { handler as GET, handler as POST };

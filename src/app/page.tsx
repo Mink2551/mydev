@@ -14,7 +14,7 @@ import { useSession } from "next-auth/react";
 
 export default function Home() {
   // Declares Staged variable
-  const [pageStage, setPageStage] = useState<string>("Profile");
+  const [pageStage, setPageStage] = useState<string>("Home");
   const [authStage, setAuthStage] = useState<string>("login");
 
   // Declare Path variable
