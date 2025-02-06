@@ -1,70 +1,65 @@
-// app/api/auth/route.js
-import NextAuth from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import bcrypt from 'bcrypt';
-import { prisma } from '../../../../../lib/prisma';
+// app/api/auth/route.ts
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcrypt";
+import { prisma } from "../../../../../lib/prisma"; // Adjust path if necessary
 
 const authOptions = {
-  providers: [
-    CredentialsProvider({
-      name: 'Credentials',
-      credentials: {
-        email: { label: 'Email', type: 'email', placeholder: 'example@example.com' },
-        password: { label: 'Password', type: 'password' },
-      },
+    debug: true, // Enable debug if needed
+    providers: [
+        CredentialsProvider({
+            name: "credentials",
+            credentials: {
+                email: { label: "Email", type: "email" },
+                password: { label: "Password", type: "password" },
+            },
+            async authorize(credentials) {
+                if (!credentials?.email || !credentials?.password) {
+                    throw new Error("Email and Password are required");
+                }
 
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error('Email and Password are required');
-        }
+                const user = await prisma.user.findUnique({
+                    where: { email: credentials.email },
+                });
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        });
+                if (!user) {
+                    throw new Error("User not found");
+                }
 
-        if (!user) {
-          throw new Error('User not found');
-        }
+                const isMatch = await bcrypt.compare(credentials.password, user.password);
+                if (!isMatch) {
+                    throw new Error("Invalid credentials");
+                }
 
-        const isMatch = await bcrypt.compare(credentials.password, user.password);
-        if (!isMatch) {
-          throw new Error('Invalid credentials');
-        }
-
-        return { id: user.id, name: user.name, email: user.email };
-      },
-    }),
-  ],
-
-  pages: {
-    signIn: '/login', // Customize the login page URL if needed
-  },
-
-  session: {
-    strategy: 'jwt',
-  },
-
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.email = user.email;
-        token.name = user.name;
-      }
-      return token;
+                return { id: user.id, name: user.name, email: user.email };
+            },
+        }),
+    ],
+    pages: {
+        signIn: "/", // Customize the login page URL if needed
     },
-
-    async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id;
-        session.user.email = token.email;
-        session.user.name = token.name;
-      }
-      return session;
+    session: {
+        strategy: "jwt",
     },
-  },
-
-  secret: process.env.NEXTAUTH_SECRET,
+    callbacks: {
+        async jwt({ token, user }) {
+            if (user) {
+                token.id = user.id;
+                token.email = user.email;
+                token.name = user.name;
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            if (session.user) {
+                session.user.id = token.id;
+                session.user.email = token.email;
+                session.user.name = token.name;
+            }
+            return session;
+        },
+    },
+    secret: process.env.NEXTAUTH_SECRET,
 };
 
 // Export the handler functions for GET and POST requests
